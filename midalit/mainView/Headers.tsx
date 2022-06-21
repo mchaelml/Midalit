@@ -31,9 +31,10 @@ interface HeadersProps {
   x: Animated.Value<number>;
   y: Animated.Value<number>;
   sections: Object[];
+  selectHeader: () => void;
 }
 
-const Headers = ({x, y, sections}: HeadersProps) => {
+const Headers = ({x, y, sections,selectHeader}: HeadersProps) => {
   const tX = (index: number) => {
     return add(
       interpolate(y, {
@@ -70,6 +71,8 @@ const Headers = ({x, y, sections}: HeadersProps) => {
     };
   };
 
+  const selectKey = (key: number) => selectHeader(key);
+
   const FULL_HEADER_HEIGHT = height / sections.length;
   const headerHeight = interpolate(y, {
     inputRange: [
@@ -90,7 +93,7 @@ const Headers = ({x, y, sections}: HeadersProps) => {
         const style = getStyle(headerHeight, key);
         return (
           <Animated.View  {...{key, style}}>
-            <Header index={key} {...{section}} />
+            <Header index={key} {...{section}}  onPress={() => selectKey(key)} />
           </Animated.View>
         );
       })}
@@ -125,7 +128,7 @@ const Headers = ({x, y, sections}: HeadersProps) => {
           outputRange: [
             0,
             width * key,
-            (CURSOR_WIDTH + PADDING) * key - width / 4 + PADDING * 2,
+            (CURSOR_WIDTH + PADDING) * key - width / sections.length + PADDING * 2,
           ],
           extrapolate: Extrapolate.CLAMP,
         });

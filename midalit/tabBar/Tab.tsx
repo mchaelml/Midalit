@@ -1,5 +1,5 @@
-import React, {ReactElement, cloneElement} from 'react';
-import {StyleSheet, TouchableWithoutFeedback, View} from 'react-native';
+import React, { ReactElement, cloneElement } from "react";
+import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
 import Animated, {
   cond,
   eq,
@@ -8,9 +8,9 @@ import Animated, {
   multiply,
   not,
   divide,
-} from 'react-native-reanimated';
-import {withTransition} from 'react-native-redash';
-import {DURATION, ICON_SIZE} from './icons/Constants';
+} from "react-native-reanimated";
+import { withTransition } from "react-native-redash";
+import { DURATION, ICON_SIZE } from "./icons/Constants";
 
 interface TabProps {
   children: ReactElement;
@@ -23,11 +23,11 @@ interface TabProps {
 
 const styles = StyleSheet.create({
   icon: {
-    overflow: 'hidden',
+    overflow: "hidden",
   },
 });
 
-export default ({
+const Tab = ({
   children,
   transition,
   active,
@@ -36,7 +36,7 @@ export default ({
   number,
 }: TabProps) => {
   const isActive = eq(active, index);
-  const activeTransition = withTransition(isActive, {duration: DURATION});
+  const activeTransition = withTransition(isActive, { duration: DURATION });
   const width = interpolate(activeTransition, {
     inputRange: [0, 1],
     outputRange: [0, ICON_SIZE],
@@ -45,17 +45,18 @@ export default ({
   const isGoingLeft = greaterThan(transition, active);
   const direction = cond(
     isActive,
-    cond(isGoingLeft, 'rtl', 'ltr'),
-    cond(isGoingLeft, 'ltr', 'rtl'),
+    cond(isGoingLeft, "rtl", "ltr"),
+    cond(isGoingLeft, "ltr", "rtl"),
   );
   return (
-    <TouchableWithoutFeedback {...{onPress}}>
+    <TouchableWithoutFeedback {...{ onPress }}>
       <Animated.View
         style={{
           //direction,
           width: ICON_SIZE,
           height: ICON_SIZE,
-        }}>
+        }}
+      >
         <View style={StyleSheet.absoluteFill}>{children}</View>
         <Animated.View
           style={[
@@ -63,10 +64,13 @@ export default ({
             {
               height: width,
             },
-          ]}>
-          {cloneElement(children, {active: true})}
+          ]}
+        >
+          {cloneElement(children, { active: true })}
         </Animated.View>
       </Animated.View>
     </TouchableWithoutFeedback>
   );
 };
+
+export default Tab;

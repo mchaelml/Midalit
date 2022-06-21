@@ -1,65 +1,72 @@
-import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+//import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
+import { ThemeProvider } from "@shopify/restyle";
 
-import {NavigationContainer} from '@react-navigation/native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-
-import {HomeStack} from './navigation';
-import Tabbar from './midalit/tabBar';
-
-import Main from './midalit/mainView/Main';
+// import {HomeStack} from "./navigation";
+import Tabbar from "./midalit/tabBar";
+// import Main from "./midalit/mainView/Main";
+import { AuthenticationNavigator } from "./midalit/src/Authentication";
+import { theme } from "./midalit/src/Theme";
+import { HomeNavigator } from "./midalit/src/Home";
+import { AppRoutes } from "./midalit/src/Components/Navigation";
+import Test from "./Test";
 
 //const Tab = createBottomTabNavigator();
-const mariner = '#3B5F8F';
-const mediumPurple = '#8266D4';
-const tomato = '#F95B57';
-const mySin = '#F3A646';
+const mariner = "#3B5F8F";
+const mediumPurple = "#8266D4";
+const tomato = "#F95B57";
+const mySin = "#F3A646";
 
-const sections: Object[] = [
+const sections: any[] = [
   {
-    title: 'SUNGLASSES',
+    title: "SUNGLASSES",
     leftColor: mediumPurple,
     rightColor: mariner,
-    image: require('./midalit/assets/sunnies.png'),
+    image: require("./midalit/assets/sunnies.png"),
   },
   {
-    title: 'FURNITURE',
+    title: "FURNITURE",
     leftColor: tomato,
     rightColor: mediumPurple,
-    image: require('./midalit/assets/table.png'),
+    image: require("./midalit/assets/table.png"),
   },
   {
-    title: 'JEWELRY',
+    title: "JEWELRY",
     leftColor: mySin,
     rightColor: tomato,
-    image: require('./midalit/assets/earrings.png'),
+    image: require("./midalit/assets/earrings.png"),
   },
   {
-    title: 'HEADWEAR',
-    leftColor: 'white',
+    title: "HEADWEAR",
+    leftColor: "white",
     rightColor: tomato,
-    image: require('./midalit/assets/hat.png'),
+    image: require("./midalit/assets/hat.png"),
   },
 ];
 
+const AppStack = createStackNavigator<AppRoutes>();
+
 const App = () => {
   return (
-    <>
-      {/* <NavigationContainer>
-        <Tab.Navigator>
-         <Tab.Screen name="Home" component={HomeStack} options={{ title: 'Home' }} />
-       </Tab.Navigator>
-      </NavigationContainer> */}
-      <Main {...{sections}} />
-      {/* <Tabbar /> */}
-    </>
+    // <Tabbar />
+    // <ThemeProvider theme={theme}>
+    //   <Test />
+    // </ThemeProvider>
+
+    <ThemeProvider theme={theme}>
+      <NavigationContainer>
+        <AppStack.Navigator headerMode="none" initialRouteName="Home">
+          <AppStack.Screen
+            name="Authentication"
+            component={AuthenticationNavigator}
+          />
+          <AppStack.Screen name="Home" component={HomeNavigator} />
+        </AppStack.Navigator>
+      </NavigationContainer>
+    </ThemeProvider>
+    // <Main {...{sections}} />
   );
 };
 

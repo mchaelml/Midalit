@@ -1,6 +1,13 @@
 // @flow
 import * as React from 'react';
-import {View, StyleSheet, Image, Dimensions} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Image,
+  Dimensions,
+  TouchableWithoutFeedback,
+  TouchableOpacity
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {Section} from './Constants';
 
@@ -14,7 +21,7 @@ const styles = StyleSheet.create({
   image: {
     ...StyleSheet.absoluteFillObject,
     width: null,
-    height: null
+    height: null,
   },
   gradient: {
     ...StyleSheet.absoluteFillObject,
@@ -25,18 +32,24 @@ const styles = StyleSheet.create({
 interface HeaderProps {
   section: Section;
   index: number;
+  onPress: () => void;
 }
 
-const Header = ({section, index}: HeaderProps) => {
+const Header = ({section, index, onPress}: HeaderProps) => {
   const colors = [section.leftColor, section.rightColor];
   return (
     <View style={styles.container}>
-      <Image source={section.image} style={styles.image} />
-      <LinearGradient
-        style={styles.gradient}
-        start={{x: 0, y: 0}}
-        end={{x: 1, y: 0}}
-        {...{colors}} />
+    <TouchableWithoutFeedback onPress={() => { console.log('pressed'); onPress()}}>
+      <>
+        <Image source={section.image} style={styles.image} />
+        <LinearGradient
+          style={styles.gradient}
+          start={{x: 0, y: 0}}
+          end={{x: 1, y: 0}}
+          {...{colors}}
+        />
+        </>
+    </TouchableWithoutFeedback>
     </View>
   );
 };
